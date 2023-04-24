@@ -1,0 +1,48 @@
+#Welcome to Northern Frock
+print('1 -Display balance')
+print('2 -Withdraw funds')
+print('3 -Deposit funds')
+print('9 -Return card')
+
+menu=int(input('Menu Option?'))
+current_balance= 500 # I will set the curent balance of the account to a fix number
+if menu == 1:
+  current_balance= int(input('Current Balance?: '))
+  print(current_balance)
+elif menu == 2:
+ print('Please select withdrawal amount \n1 -£10\n 2 -£20\n3 -£40\n 4 -£60\n 5 -£80\n 6 -£100\n 7 -Other amount\n 8 -Return to main menu')
+ sub_menu= int(input('Pick Option?'))
+ if sub_menu ==1:
+   print('£10', 'New Amount:',(current_balance-10))
+ elif sub_menu ==2:
+   print('£20', 'New Amount:',(current_balance-20))
+ elif sub_menu ==3:
+   print('£40', 'New Amount:',(current_balance-40))
+ elif sub_menu ==4:
+   print('£60', 'New Amount:',(current_balance-60))
+ elif sub_menu ==5:
+   print('£80', 'New Amount:',(current_balance-80))
+ elif sub_menu ==6:
+   print('£100', 'New Amount',(current_balance-100))
+ elif sub_menu ==7:
+   enter_amount= int(input('Enter amount?'))
+   print('£',enter_amount,'New Amount:',(current_balance-enter_amount))
+ else:
+   print('Return to Main Menu')
+
+elif menu == 3:
+  Deposit_amount= int(input('Deposit Amount?'))
+
+  if Deposit_amount % 10 == 0:          
+    print(current_balance+Deposit_amount)
+
+  if Deposit_amount:
+    print('£',Deposit_amount,'has been added. New Amount:',(current_balance+Deposit_amount))
+    print('Return to Main menu')
+  else:
+    print('we accept only multiple of 10 bills')
+
+elif menu == 9:
+  print('Goodbye and Hope to see you again')
+else:
+  print('Error, you have entered an incorrect number. Try Again')
