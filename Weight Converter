@@ -1,0 +1,73 @@
+import tkinter as tk
+
+
+class WeightConverterApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("Weight Converter")
+        master.geometry("750x500")
+
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.label = tk.Label(self.master, text="WEIGHT CONVERTER",
+                              font=("Arial", 20), bg="black", fg='yellow')
+        self.label.grid(row=0, column=0, columnspan=3)
+
+        self.instruction_label = tk.Label(
+            self.master, text="Enter the weight in Kgs", font=("Arial", 12))
+        self.instruction_label.grid(row=1, column=0, columnspan=3)
+
+        self.entry = tk.Entry(self.master)
+        self.entry.grid(row=2, column=0, columnspan=3)
+
+        self.units = ["Ounces", "Pounds", "Grams"]
+        for i, unit in enumerate(self.units):
+            convert_button = tk.Button(self.master, text=f"Convert to {unit}",
+                                       command=lambda u=unit.lower(): self.convert_weight(u))
+            convert_button.grid(row=3, column=i)
+
+        self.clear_button = tk.Button(self.master, text="Clear Result",
+                                      command=self.clear_result_label)
+        self.clear_button.grid(row=4, column=0, columnspan=3)
+
+        self.result_label = tk.Text(self.master, wrap=tk.WORD,
+                                    font=("Arial", 12), height=3)
+        self.result_label.grid(row=5, column=0, columnspan=3)
+
+    def convert_weight(self, unit):
+        try:
+            kg_value = float(self.entry.get())
+            conversions = {"ounces": 35.274, "pounds": 2.20462, "grams": 1000}
+
+            if unit in conversions:
+                converted_value = kg_value * conversions[unit]
+                self.configure_result_label(
+                    f"This weight in {unit} would be: ", f"{converted_value:.2f}", "black", "red")
+            else:
+                raise ValueError("Invalid unit")
+
+        except ValueError:
+            self.configure_result_label(
+                "Invalid input. Please enter a valid number.", "", "red", "black")
+
+    def configure_result_label(self, prefix, value, prefix_color, value_background):
+        self.result_label.delete(1.0, tk.END)
+
+        # Configure the prefix
+        self.result_label.insert(tk.END, prefix, "prefix")
+        self.result_label.tag_configure("prefix", foreground=prefix_color)
+
+        # Configure the converted value
+        self.result_label.insert(tk.END, value, "value")
+        self.result_label.tag_configure(
+            "value", background=value_background, foreground="black")
+
+    def clear_result_label(self):
+        self.configure_result_label("", "", "black", "white")
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = WeightConverterApp(root)
+    root.mainloop()
