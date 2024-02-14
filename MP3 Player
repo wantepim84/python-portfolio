@@ -1,0 +1,54 @@
+import os
+import pygame
+import tkinter as tk
+from tkinter import filedialog
+
+def play_music():
+    selected_song = listbox.get(tk.ACTIVE)
+    pygame.mixer.music.load(selected_song)
+    pygame.mixer.music.play()
+
+def stop_music():
+    pygame.mixer.music.stop()
+
+def load_music():
+    folder = filedialog.askdirectory()
+    os.chdir(folder)
+    songs = [file for file in os.listdir(folder) if file.endswith(".mp3")]
+    listbox.delete(0, tk.END)  # Clear the listbox before inserting new songs
+    for song in songs:
+        listbox.insert(tk.END, song)
+
+def fast_forward():
+    current_pos = pygame.mixer.music.get_pos() // 1000  # Get current position in seconds
+    pygame.mixer.music.set_pos(current_pos + 10)  # Fast forward by 10 seconds
+
+def rewind():
+    current_pos = pygame.mixer.music.get_pos() // 1000  # Get current position in seconds
+    pygame.mixer.music.set_pos(current_pos - 10)  # Rewind by 10 seconds
+
+window = tk.Tk()
+window.title("MP3 Player")
+
+pygame.init()
+pygame.mixer.init()
+
+listbox = tk.Listbox(window, width=50)
+listbox.pack(pady=10)
+
+play_button = tk.Button(window, text="Play", command=play_music)
+play_button.pack(pady=5)
+
+stop_button = tk.Button(window, text="Stop", command=stop_music)
+stop_button.pack(pady=5)
+
+load_button = tk.Button(window, text="Load Music Folder", command=load_music)
+load_button.pack(pady=10)
+
+fast_forward_button = tk.Button(window, text="Fast Forward", command=fast_forward)
+fast_forward_button.pack(pady=5)
+
+rewind_button = tk.Button(window, text="Rewind", command=rewind)
+rewind_button.pack(pady=5)
+
+window.mainloop()
